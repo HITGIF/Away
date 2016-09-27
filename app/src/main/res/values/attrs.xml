@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CircleSeekBar">
+        <attr name="android:thumb" />
+        <attr name="progress_width" format="dimension" />
+        <attr name="progress_background" format="color" />
+        <attr name="progress_front" format="color" />
+        <attr name="progress_max" format="integer" />
+        <attr name="show_progress_text" format="boolean" />
+        <attr name="progress_text_stroke_width" format="dimension" />
+        <attr name="progress_text_color" format="color" />
+        <attr name="progress_text_size" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="CustomAttributes">
+
+        <!-- Color of ripple animation -->
+        <attr name="rippleColor" format="color|reference" />
+        <!-- Speed of ripple animation -->
+        <attr name="rippleSpeed" format="float" />
+        <!-- indicate if the slider must show number indicator -->
+        <attr name="showNumberIndicator" format="boolean" />
+        <!-- in progress view indicate max value of progress -->
+        <attr name="max" format="integer" />
+        <!-- in progress view indicate min value of progress -->
+        <attr name="min" format="integer" />
+        <!-- in progress view indicate value of progress -->
+        <attr name="value" format="integer" />
+        <!-- in progress view indicate value of progress -->
+        <attr name="progress" format="integer" />
+        <attr name="ringWidth" format="dimension" />
+        <!-- in switche's view indicate state of view -->
+        <attr name="check" format="boolean" />
+        <attr name="checkBoxSize" format="dimension" />
+        <attr name="thumbSize" format="dimension" />
+        <!-- in float button indicate icon resource -->
+        <attr name="iconDrawable" format="integer" />
+        <!-- in button whitch contains drawable indicate icon resource -->
+        <attr name="iconSize" format="dimension" />
+        <!-- in float button indicate if must start with animation -->
+        <attr name="animate" format="boolean" />
+        <!-- set the border of the ripple frame -->
+        <attr name="rippleBorderRadius" format="float" />
+        <!-- if true, delays calls to OnClickListeners until ripple effect ends -->
+        <attr name="clickAfterRipple" format="boolean" />
+    </declare-styleable>
+
+</resources>

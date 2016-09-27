@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:circle_seekbar="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Action-bar looking view -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/actionbar_dimen"
+        android:background="@color/dark_gray"
+        >
+
+        <ImageView
+            android:id="@+id/drawer_indicator"
+            android:layout_width="@dimen/actionbar_dimen"
+            android:layout_height="@dimen/actionbar_dimen"
+            android:scaleType="centerInside"
+            android:background="@drawable/drawer_selector"
+            android:layout_gravity="start"
+            />
+
+        <TextView
+            android:id="@+id/indicator_style"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/actionbar_dimen"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_gravity="end"
+            android:text="@string/rounded"
+            android:textStyle="bold"
+            android:textColor="@color/light_gray"
+            android:gravity="center"
+            android:background="@drawable/drawer_selector"
+            />
+
+    </FrameLayout>
+
+    <!-- Content -->
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.11">
+
+        <RelativeLayout
+            android:id="@+id/view_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/dark_gray">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:id="@+id/relativeLayout">
+
+                <carbonylgroup.away.custom_palette.CircleSeekBar
+                    android:id="@+id/circle_seekbar"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:thumb="@drawable/thumb"
+                    circle_seekbar:progress_background="@android:color/darker_gray"
+                    android:visibility="visible"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
+
+                <Button
+
+                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/start_button_width"
+                    android:text="@string/start"
+                    android:textColor="@color/light_gray"
+                    android:background="@color/transparent"
+                    android:id="@+id/back_start"
+                    android:layout_alignTop="@+id/start_bt"
+                    android:layout_alignLeft="@+id/start_bt"
+                    android:layout_alignStart="@+id/start_bt" />
+
+                <Button
+                    style="@style/start_button_style"
+                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/start_button_width"
+                    android:text="@string/start"
+                    android:textColor="@color/light_gray"
+                    android:id="@+id/start_bt"
+                    android:layout_below="@+id/circle_seekbar"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="50dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/textView"
+                    android:layout_below="@+id/back_start"
+                    android:layout_centerHorizontal="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/textView2"
+                    android:layout_above="@+id/back_start"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/circle_seekbar" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/drawer_content"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:gravity="center"
+            android:background="@color/dark_gray">
+
+
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.DrawerLayout>
+
+</LinearLayout>

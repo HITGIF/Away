@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">Away</string>
+    <string name="content_hint">Content</string>
+
+    <string name="drawer_hint">Drawer</string>
+    <string name="rounded">See Rounded</string>
+    <string name="squared">See Squared</string>
+
+    <string name="start">START</string>
+    <string name="leaveMeAlong">Leave me alone!</string>
+    <string name="giveUpDiaTitle">Want to give up?</string>
+    <string name="giveUpDiaMessage">Once you give up, no time will be record!</string>
+    <string name="stay">STAY</string>
+    <string name="giveUp">GIVE UP</string>
+
+    <string name="goodJob">Good Job!</string>
+    <string name="targetAchieved">Your time have been recorded :)</string>
+    <string name="OK">OK</string>
+
+    <string name="whatAPity">What A Pity!</string>
+    <string name="targetNotAchieved">You had lost your time :(</string>
+    <string name="myFault">MY FAULT</string>
+</resources>
