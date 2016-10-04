@@ -61,7 +61,7 @@ public class MainActivity extends Activity {
         circleSeekBar.setProgressFrontColor(Color.LTGRAY);
 
         drawerArrowDrawable = new DrawerArrowDrawable(resources);
-        drawerArrowDrawable.setStrokeColor(resources.getColor(R.color.light_gray));
+        drawerArrowDrawable.setStrokeColor(resources.getColor(R.color.white));
 
         imageView.setImageDrawable(drawerArrowDrawable);
     }

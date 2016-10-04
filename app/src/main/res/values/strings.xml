@@ -22,4 +22,6 @@
     <string name="whatAPity">What A Pity!</string>
     <string name="targetNotAchieved">You had lost your time :(</string>
     <string name="myFault">MY FAULT</string>
+
+    <string name="sample_username">Gustav Wang</string>
 </resources>

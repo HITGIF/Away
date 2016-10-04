@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/intro"
         android:textSize="18sp"
-        android:textColor="@color/light_gray"
+        android:textColor="@color/white"
         android:layout_above="@+id/relativeLayout2"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="80dp"
@@ -33,7 +33,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:textColor="@color/light_gray"
+            android:textColor="@color/white"
             android:layout_marginLeft="6dp"
             android:layout_marginBottom="80dp" />
 

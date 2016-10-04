@@ -9,12 +9,10 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
 import carbonylgroup.away.R;
-import carbonylgroup.away.activities.MainActivity;
 
 /**
  *
@@ -129,7 +127,7 @@ public class CircleSeekBar extends View {
 
 		mIsShowProgressText = localTypedArray.getBoolean(R.styleable.CircleSeekBar_show_progress_text, true);
 		int progressTextStroke = dip2px(getContext(), 8);
-		int progressTextColor = localTypedArray.getColor(R.styleable.CircleSeekBar_progress_text_color, getResources().getColor(R.color.light_gray));
+		int progressTextColor = localTypedArray.getColor(R.styleable.CircleSeekBar_progress_text_color, getResources().getColor(R.color.white));
 
 		Typeface typeFace = Typeface.createFromAsset(mContext.getAssets(), "fonts/futura_lt_light.ttf");
 
