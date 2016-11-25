@@ -1,4 +1,6 @@
-/** Copyright (C) 2016 Gustav Wang */
+/**
+ * Copyright (C) 2016 Gustav Wang
+ */
 
 package carbonylgroup.away.classes;
 
@@ -10,8 +12,8 @@ public class History {
 
     private final String dateStr;
     private final String shortDateStr;
-    public  final Date date;
-    public  final long time_took;
+    public final Date date;
+    public final long time_took;
 
     public History(Date _date, long _time_took) {
 
@@ -21,11 +23,22 @@ public class History {
         shortDateStr = new SimpleDateFormat("MM-dd", Locale.CHINA).format(date);
     }
 
-    public String getDateStr(boolean showAll){
+    public int getDay() {
+        return date.getDay();
+    }
+    public int getYear() {
+        return date.getYear();
+    }
+    public int getMonth() {
+        return date.getMonth();
+    }
 
-        if(showAll)
+    public String getDateStr(boolean showAll) {
+
+        if (showAll)
             return dateStr;
         else
             return shortDateStr;
     }
+
 }

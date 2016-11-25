@@ -1,45 +1,46 @@
-/** Copyright (C) 2016 Gustav Wang */
+/**
+ * Copyright (C) 2016 Gustav Wang
+ */
 
 package carbonylgroup.away.activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.Activity;
-
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.PowerManager;
-import android.view.Display;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.support.v7.app.AlertDialog;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.os.Handler;
 
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import carbonylgroup.away.R;
-import carbonylgroup.away.classes.FastBlur;
-import carbonylgroup.away.classes.History;
-import carbonylgroup.away.material_design_uilibrary.widgets.Dialog;
-import carbonylgroup.away.material_design_uilibrary.widgets.TimeDialog;
+import carbonylgroup.away.classes.HistoryHandler;
+
 
 public class OnTimeActivity extends Activity {
 
@@ -48,30 +49,25 @@ public class OnTimeActivity extends Activity {
     private int time_hours;
     private int timeInSeconds;
     private int targetTime;
-    private long totalTime;
-
-    private ArrayList<History> all_Histories;
     private String timeInText;
-    private Animation giveUp_oc;
-    private Animation giveUp_or;
-    private TextView time_text;
-    private TextView giveUp_bt;
-    private TextView intro;
-    private Timer timer;
     private TimerTask timerTask;
-    private Bitmap shot_screen;
-    private Date date_now;
+    private HistoryHandler historyHandler;
+    private PowerManager.WakeLock wakeLock = null;
 
-    SharedPreferences spReader;
-    SharedPreferences.Editor spEditor;
-    SimpleDateFormat sdf;
-
-    Dialog giveUpDialog;
-    TimeDialog timedialog;
-    TimeDialog lostDialog;
-
-    PowerManager.WakeLock wakeLock = null;
-
+    private View timing_layout;
+    private Timer timer;
+    private Button giveUp_bt;
+    private TextView time_text;
+    private TextView intro;
+    private TextView timeDialog_title;
+    private TextView timeDialog_msg;
+    private TextView timeDialog_timeText;
+    private ImageView timeDialog_markImage;
+    private AlertDialog.Builder giveUpDialogBuilder;
+    private AlertDialog.Builder lostDialogBuilder;
+    private AlertDialog.Builder winDialogBuilder;
+    private View.OnClickListener giveUp_btOC;
+    private DialogInterface.OnClickListener giveUpOC;
 
     /**
      * Timer_Process
@@ -87,24 +83,11 @@ public class OnTimeActivity extends Activity {
                     timeInText = getTimeInHMS();
                     showTime(timeInText);
 
-                    /** Prepare blurred bitmap */
-                    if (timeInSeconds == 2) {
-                        showTime(getTimeInHMS(0));
-                        shot_screen = ScreenShot(OnTimeActivity.this);
-                        showTime(getTimeInHMS(2));
-                        Thread thread = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                shot_screen = FastBlur.doBlur(shot_screen, 10, false);
-                            }
-                        });
-                        thread.start();
-                    }
                     /** Completed */
                     if (timeInSeconds == 0) {
                         timeUp();
-                        writeData(date_now, targetTime);
-                        showTimeUpDialog();
+                        historyHandler.writeData(new Date(), targetTime);
+                        showWinDialog();
                     }
                     /** Lost */
                     if (isBackground(OnTimeActivity.this)) {
@@ -123,14 +106,26 @@ public class OnTimeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.on_timing);
 
+        initOnClick();
         initValue();
         initUI();
-        initAnim();
-        initOnClick();
 
         startTimerTask();
+    }
 
-        readData();
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        ViewTreeObserver vto2 = timing_layout.getViewTreeObserver();
+        vto2.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                timing_layout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    animateRevealShow(timing_layout);
+            }
+        });
     }
 
     @Override
@@ -152,30 +147,57 @@ public class OnTimeActivity extends Activity {
     private void endActivity() {
 
         timeUp();
-        OnTimeActivity.this.finish();
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            animateRevealGone(timing_layout);
+    }
+
+    private void initOnClick() {
+
+        giveUp_btOC = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showGiveUpDialog();
+
+            }
+        };
+        giveUpOC = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                endActivity();
+            }
+        };
     }
 
     private void initValue() {
 
-        time_text = (TextView) findViewById(R.id.time_show);
-        giveUp_bt = (TextView) findViewById(R.id.giveup_bt);
-        intro = (TextView) findViewById(R.id.intro);
-
-        spReader = getSharedPreferences("data", Activity.MODE_PRIVATE);
-        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS", Locale.CHINA);
-        date_now = new Date();
+        historyHandler = new HistoryHandler(OnTimeActivity.this);
+        
+        initView();
 
         /** Get Intent Value */
         Intent intent = getIntent();
         targetTime = intent.getIntExtra("time", 0);
-        initTimeWithS(targetTime);
-        //initTimeWithS(5);
+        //initTimeWithS(targetTime);
+        initTimeWithS(5);
         if (intent.getIntExtra("time", 0) != 0) {
-
             timeInText = getTimeInHMS();
             showTime(timeInText);
         }
+    }
+
+    private void initView() {
+
+        timing_layout = findViewById(R.id.timing_layout);
+
+        LayoutInflater inflater = getLayoutInflater();
+        View timeDialogView = inflater.inflate(R.layout.time_dialog_view, (ViewGroup) findViewById(R.id.dialog_rootView));
+
+        time_text = (TextView) findViewById(R.id.time_show);
+        giveUp_bt = (Button) findViewById(R.id.giveup_bt);
+        intro = (TextView) findViewById(R.id.intro);
+
+        giveUp_bt.setOnClickListener(giveUp_btOC);
 
         /** Timer */
         timer = new Timer(true);
@@ -189,82 +211,43 @@ public class OnTimeActivity extends Activity {
         };
 
         /** Dialogs */
-        giveUpDialog = new Dialog(OnTimeActivity.this, getString(R.string.giveUpDiaTitle), getString(R.string.giveUpDiaMessage), getString(R.string.stay));
-        giveUpDialog.addCancelButton(getString(R.string.giveUp));
-        giveUpDialog.setOnCancelButtonClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                endActivity();
-            }
-        });
+        giveUpDialogBuilder = new AlertDialog.Builder(OnTimeActivity.this);
+        giveUpDialogBuilder.setTitle(getString(R.string.giveUpDiaTitle));
+        giveUpDialogBuilder.setMessage(getString(R.string.giveUpDiaMessage));
+        giveUpDialogBuilder.setNegativeButton(getString(R.string.giveUp), giveUpOC);
+        giveUpDialogBuilder.setPositiveButton(getString(R.string.stay), null);
 
-        timedialog = new TimeDialog(OnTimeActivity.this, getString(R.string.goodJob), getString(R.string.targetAchieved), getString(R.string.OK), getTimeInHMS(targetTime), true, shot_screen, false);
+        timeDialog_title = (TextView) timeDialogView.findViewById(R.id.timeDialog_title);
+        timeDialog_msg = (TextView) timeDialogView.findViewById(R.id.timeDialog_msg);
+        timeDialog_timeText = (TextView) timeDialogView.findViewById(R.id.timeDialog_timeText);
+        timeDialog_markImage = (ImageView) timeDialogView.findViewById(R.id.timeDialog_markImage);
+
+        lostDialogBuilder = new AlertDialog.Builder(OnTimeActivity.this);
+        lostDialogBuilder.setPositiveButton(getString(R.string.myFault), giveUpOC);
+        lostDialogBuilder.setView(timeDialogView);
+        lostDialogBuilder.setCancelable(false);
+
+        winDialogBuilder = new AlertDialog.Builder(OnTimeActivity.this);
+        winDialogBuilder.setPositiveButton(getString(R.string.OK), giveUpOC);
+        winDialogBuilder.setView(timeDialogView);
+        winDialogBuilder.setCancelable(false);
     }
 
     private void initUI() {
 
-        Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/futura_lt_light.ttf");
-
-        time_text.setTypeface(typeFace);
-        giveUp_bt.setTypeface(typeFace);
-        intro.setTypeface(typeFace);
-        ((Button) findViewById(R.id.back_giveup)).setTypeface(typeFace);
-
+        initTypeFace();
         fullScreen(true);
     }
 
-    private void initAnim() {
+    private void initTypeFace() {
 
-        giveUp_oc = AnimationUtils.loadAnimation(this, R.anim.start_button_onclick);
-        giveUp_oc.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
+        Typeface futura_lt_light = Typeface.createFromAsset(getAssets(), "fonts/futura_lt_light.ttf");
+        Typeface futura_lt_medium = Typeface.createFromAsset(getAssets(), "fonts/futura_lt_medium.ttf");
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                giveUp_bt.setAlpha(0);
-            }
-        });
-
-        giveUp_or = AnimationUtils.loadAnimation(this, R.anim.start_button_onrelease);
-        giveUp_or.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                giveUp_bt.setAlpha(1);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-            }
-        });
-    }
-
-    private void initOnClick() {
-
-        giveUp_bt.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        giveUp_bt.startAnimation(giveUp_oc);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        giveUp_bt.startAnimation(giveUp_or);
-                        showGiveUpDialog();
-                        break;
-                }
-                return false;
-            }
-        });
+        time_text.setTypeface(futura_lt_light);
+        giveUp_bt.setTypeface(futura_lt_medium);
+        intro.setTypeface(futura_lt_medium);
+        timeDialog_timeText.setTypeface(futura_lt_light);
     }
 
     private void initTimeWithS(int seconds_h) {
@@ -316,71 +299,71 @@ public class OnTimeActivity extends Activity {
 
     private void showGiveUpDialog() {
 
-        if (!timedialog.isShowing())
-            giveUpDialog.show();
+        giveUpDialogBuilder.show();
     }
 
-    private void showTimeUpDialog() {
+    private void showWinDialog() {
 
-        timedialog = new TimeDialog(OnTimeActivity.this, getString(R.string.goodJob), getString(R.string.targetAchieved), getString(R.string.OK), getTimeInHMS(targetTime), true, shot_screen, false);
-        timedialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                endActivity();
-            }
-        });
-        if (giveUpDialog.isShowing())
-            giveUpDialog.dismiss();
-        timedialog.show();
+        timeDialog_title.setText(getString(R.string.goodJob));
+        timeDialog_msg.setText(getString(R.string.targetAchieved));
+        timeDialog_timeText.setText(getTimeInHMS(targetTime));
+        timeDialog_timeText.setTextColor(getResources().getColor(R.color.light_green));
+        timeDialog_markImage.setImageResource(R.drawable.check_mark);
+
+        winDialogBuilder.show();
     }
 
     private void showLostDialog() {
 
-        lostDialog = new TimeDialog(OnTimeActivity.this, getString(R.string.whatAPity), getString(R.string.targetNotAchieved), getString(R.string.myFault), getTimeInHMS(targetTime), false, ScreenShot(OnTimeActivity.this), true);
-        lostDialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
+        timeDialog_title.setText(getString(R.string.whatAPity));
+        timeDialog_msg.setText(getString(R.string.targetNotAchieved));
+        timeDialog_timeText.setText(getTimeInHMS(targetTime));
+        timeDialog_timeText.setTextColor(getResources().getColor(R.color.light_orange));
+        timeDialog_markImage.setImageResource(R.drawable.cross_mark);
+
+        lostDialogBuilder.show();
+    }
+
+    public static int dip2px(Context context, float dipValue) {
+
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
+    }
+
+    @TargetApi(21)
+    public void animateRevealShow(View viewRoot) {
+
+        int cx = viewRoot.getWidth() / 2;
+        int cy = viewRoot.getHeight() - dip2px(OnTimeActivity.this, 60);
+        int radius = viewRoot.getHeight();
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(viewRoot, cx, cy, 0, radius);
+        viewRoot.setVisibility(View.VISIBLE);
+        anim.setInterpolator(new AccelerateDecelerateInterpolator());
+        anim.setDuration(500);
+        anim.start();
+    }
+
+    @TargetApi(21)
+    public void animateRevealGone(final View viewRoot) {
+
+        int cx = viewRoot.getWidth() / 2;
+        int cy = viewRoot.getHeight() - dip2px(OnTimeActivity.this, 60);
+        int radius = viewRoot.getHeight();
+
+        Animator anim = ViewAnimationUtils.createCircularReveal(viewRoot, cx, cy, radius, 0);
+        anim.addListener(new AnimatorListenerAdapter() {
             @Override
-            public void onClick(View view) {
-                endActivity();
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                viewRoot.setVisibility(View.INVISIBLE);
+                OnTimeActivity.this.finish();
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
-        if (giveUpDialog.isShowing())
-            giveUpDialog.dismiss();
-        lostDialog.show();
-    }
-
-    private void readData() {
-
-        all_Histories = new ArrayList<>();
-        totalTime = spReader.getLong("totalTime", 0);
-        String h = spReader.getString("histories", null);
-        if (h != null) {
-            try {
-                String[] hs = h.split("<@>");
-                for (String tem : hs) {
-                    String[] history = tem.split("<#>");
-                    all_Histories.add(new History(sdf.parse(history[0]), Long.parseLong(history[1])));
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void writeData(Date _date, int _time_took) {
-
-        all_Histories.add(new History(_date, _time_took));
-        totalTime += _time_took;
-
-        String hs = "";
-        for (History tem : all_Histories) {
-            hs += sdf.format(date_now) + "<#>" + String.valueOf(tem.time_took) + "<@>";
-        }
-        hs = hs.substring(0, hs.length() - 3);
-
-        spEditor = spReader.edit();
-        spEditor.putString("histories", hs);
-        spEditor.putLong("totalTime", totalTime);
-        spEditor.apply();
+        anim.setInterpolator(new DecelerateInterpolator());
+        anim.setDuration(400);
+        anim.start();
     }
 
     private void fullScreen(boolean enable) {
@@ -398,21 +381,6 @@ public class OnTimeActivity extends Activity {
         }
     }
 
-    public Bitmap ScreenShot(Activity activity) {
-
-        View view = activity.getWindow().getDecorView();
-        view.buildDrawingCache();
-        Display display = activity.getWindowManager().getDefaultDisplay();
-
-        int widths = display.getWidth();
-        int heights = display.getHeight();
-        view.setDrawingCacheEnabled(true);
-        Bitmap bmp = Bitmap.createBitmap(view.getDrawingCache(), 0, 0, widths, heights);
-        view.destroyDrawingCache();
-
-        return bmp;
-    }
-
     private static boolean isBackground(final Context context) {
 
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -426,26 +394,51 @@ public class OnTimeActivity extends Activity {
         return false;
     }
 
-    private void acquireWakeLock()
-    {
-        if (null == wakeLock)
-        {
-            PowerManager pm = (PowerManager)this.getSystemService(Context.POWER_SERVICE);
-            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK|PowerManager.ON_AFTER_RELEASE, "PostLocationService");
-            if (null != wakeLock)
-            {
+    private void acquireWakeLock() {
+
+        if (null == wakeLock) {
+            PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, "PostLocationService");
+            if (null != wakeLock) {
                 wakeLock.acquire();
             }
         }
     }
 
-    private void releaseWakeLock()
-    {
-        if (null != wakeLock)
-        {
+    private void releaseWakeLock() {
+
+        if (null != wakeLock) {
             wakeLock.release();
             wakeLock = null;
         }
     }
 
+//                    /** Prepare blurred bitmap */
+//                    if (timeInSeconds == 2) {
+//                        showTime(getTimeInHMS(0));
+//                        shot_screen = ScreenShot(OnTimeActivity.this);
+//                        showTime(getTimeInHMS(2));
+//                        Thread thread = new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                shot_screen = FastBlur.doBlur(shot_screen, 10, false);
+//                            }
+//                        });
+//                        thread.start();
+//                    }
+
+//        public Bitmap ScreenShot(Activity activity) {
+//
+//        View view = activity.getWindow().getDecorView();
+//        view.buildDrawingCache();
+//        Display display = activity.getWindowManager().getDefaultDisplay();
+//
+//        int widths = display.getWidth();
+//        int heights = display.getHeight();
+//        view.setDrawingCacheEnabled(true);
+//        Bitmap bmp = Bitmap.createBitmap(view.getDrawingCache(), 0, 0, widths, heights);
+//        view.destroyDrawingCache();
+//
+//        return bmp;
+//    }
 }

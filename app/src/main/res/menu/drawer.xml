@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group>
+        <item
+            android:id="@+id/nav_home"
+            android:checkable="true"
+            android:icon="@drawable/ic_send_black_48dp"
+            android:title="@string/home"
+            android:checked="true"/>
+        <item
+            android:id="@+id/nav_dashboard"
+            android:checkable="true"
+            android:icon="@drawable/ic_dashboard_black_48dp"
+            android:title="@string/dashboard" />
+        <item
+            android:id="@+id/nav_friends"
+            android:checkable="true"
+            android:icon="@drawable/ic_people_black_48dp"
+            android:title="@string/friends" />
+        <item
+            android:id="@+id/nav_leaderBoard"
+            android:checkable="true"
+            android:icon="@drawable/ic_dns_black_48dp"
+            android:title="@string/leader_board" />
+    </group>
+
+    <item android:title="Preference">
+        <menu>
+            <item
+                android:id="@+id/nav_theme"
+                android:icon="@drawable/ic_color_lens_black_48dp"
+                android:title="@string/theme" />
+            <item
+                android:id="@+id/nav_setting"
+                android:icon="@drawable/ic_settings_black_48dp"
+                android:title="@string/setting" />
+        </menu>
+    </item>
+
+</menu>

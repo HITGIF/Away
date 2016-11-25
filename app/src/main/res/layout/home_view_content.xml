@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/id_drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary" />
+
+    <RelativeLayout
+        android:id="@+id/seekBar_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/start_bt"
+        android:layout_centerHorizontal="true">
+
+        <carbonylgroup.away.custom_palette.CircleSeekBar
+            android:id="@+id/circle_seekbar"
+            android:layout_width="270dp"
+            android:layout_height="270dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:thumb="@drawable/thumb"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/start_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/ic_send_white_48dp"
+        app:rippleColor="@color/white" />
+
+</RelativeLayout>
+

@@ -2,11 +2,17 @@
 
 <resources>
     <string name="app_name">Away</string>
-    <string name="content_hint">Content</string>
 
-    <string name="drawer_hint">Drawer</string>
-    <string name="rounded">See Rounded</string>
-    <string name="squared">See Squared</string>
+    <string name="drawer_hint">Navigation Drawer</string>
+    <string name="open_drawer">Drawer Opened</string>
+    <string name="close_drawer">Drawer Closed</string>
+
+    <string name="home">Home</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="friends">Friends</string>
+    <string name="leader_board">Leader Board</string>
+    <string name="theme">Theme</string>
+    <string name="setting">Setting</string>
 
     <string name="start">START</string>
     <string name="leaveMeAlong">Leave me alone!</string>
@@ -14,14 +20,34 @@
     <string name="giveUpDiaMessage">Once you give up, no time will be record!</string>
     <string name="stay">STAY</string>
     <string name="giveUp">GIVE UP</string>
-
     <string name="goodJob">Good Job!</string>
     <string name="targetAchieved">Your time have been recorded :)</string>
     <string name="OK">OK</string>
-
     <string name="whatAPity">What A Pity!</string>
     <string name="targetNotAchieved">You had lost your time :(</string>
     <string name="myFault">MY FAULT</string>
 
     <string name="sample_username">Gustav Wang</string>
+
+    <string name="today_earned">Today Earned</string>
+    <string name="total_earned">Total Earned</string>
+    <string name="daily_goal">Daily Goal</string>
+    <string name="total">Total</string>
+    <string name="completed">Completed</string>
+    <string name="incomplete">Incomplete</string>
+    <string name="last_seven_days_earned">Last 7 Days (min)</string>
+    <string name="time_overview">Overview (h)</string>
+    <string name="today">Today</string>
+    <string name="this_week">This Week</string>
+    <string name="this_month">This Month</string>
+    <string name="last_three_month">Last 3 Month</string>
+    <string name="this_year">This Year</string>
+
+    <string name="min_short">\'</string>
+    <string name="hour_short">h</string>
+    <string name="day_short">d</string>
+    <string name="month_short">m</string>
+    <string name="year_short">y</string>
+
+    <string name="transition_name_goal_view">transition:GOAL_VIEW</string>
 </resources>

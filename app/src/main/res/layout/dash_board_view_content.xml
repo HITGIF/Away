@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dashboard_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/view_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorGreyBackGround">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_view_today"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="3dp"
+                app:cardBackgroundColor="@color/colorPrimary"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="5dp"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="155dp">
+
+                    <TextView
+                        android:id="@+id/today_earned_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="18dp"
+                        android:text="@string/today_earned"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/today_earned_text"
+                        android:adjustViewBounds="false"
+                        android:scaleType="matrix"
+                        android:src="@drawable/stopwatch_half" />
+
+                    <TextView
+                        android:id="@+id/today_earned_min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/today_earned_hour"
+                        android:layout_alignBottom="@+id/today_earned_hour"
+                        android:layout_toEndOf="@+id/today_earned_hour"
+                        android:layout_toRightOf="@+id/today_earned_hour"
+                        android:text="h 00'"
+                        android:textColor="@color/white"
+                        android:textSize="40sp" />
+
+                    <TextView
+                        android:id="@+id/today_earned_hour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/today_earned_text"
+                        android:layout_alignStart="@+id/today_earned_text"
+                        android:layout_below="@+id/today_earned_text"
+                        android:layout_marginTop="10dp"
+                        android:text="08"
+                        android:textColor="@color/white"
+                        android:textSize="75sp" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <RelativeLayout
+                android:id="@+id/two_big_cards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/goal_card_view">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/total_card_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginStart="3dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="5dp"
+                    app:cardPreventCornerOverlap="false"
+                    app:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="140dp">
+
+                        <TextView
+                            android:id="@+id/total_earned_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginEnd="18dp"
+                            android:layout_marginLeft="18dp"
+                            android:layout_marginRight="18dp"
+                            android:layout_marginStart="18dp"
+                            android:layout_marginTop="18dp"
+                            android:text="@string/total_earned"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/total_earned_time_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/total_earned_text"
+                            android:layout_alignStart="@+id/total_earned_text"
+                            android:layout_below="@+id/total_earned_text"
+                            android:layout_marginTop="10dp"
+                            android:text="08"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="65sp" />
+
+                        <TextView
+                            android:id="@+id/total_earned_unit_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/total_earned_time_tv"
+                            android:layout_alignBottom="@+id/total_earned_time_tv"
+                            android:layout_marginEnd="18dp"
+                            android:layout_marginRight="18dp"
+                            android:layout_toEndOf="@+id/total_earned_time_tv"
+                            android:layout_toRightOf="@+id/total_earned_time_tv"
+                            android:text="h"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="35sp" />
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/bar_chart_card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_toEndOf="@id/total_card_view"
+                    android:layout_toRightOf="@id/total_card_view"
+                    app:cardBackgroundColor="@color/colorAccent"
+                    app:cardCornerRadius="2dp"
+                    app:cardElevation="5dp"
+                    app:cardPreventCornerOverlap="false"
+                    app:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp">
+
+                        <TextView
+                            android:id="@+id/a1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="18dp"
+                            android:layout_marginStart="18dp"
+                            android:layout_marginTop="18dp"
+                            android:text="@string/last_seven_days_earned"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="15sp" />
+
+                        <org.eazegraph.lib.charts.BarChart
+                            android:id="@+id/barChart"
+                            android:layout_width="match_parent"
+                            android:layout_height="256dp"
+                            android:layout_below="@+id/a1"
+                            android:padding="10dp"
+                            app:egBarMargin="5dp"
+                            app:egLegendHeight="0dp" />
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/overview_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/two_big_cards"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                app:cardBackgroundColor="@color/colorPrimary"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="5dp"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp">
+
+                    <TextView
+                        android:id="@+id/a2"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_toLeftOf="@+id/time_period_spinner"
+                        android:layout_toStartOf="@+id/time_period_spinner"
+                        android:gravity="center_vertical"
+                        android:text="@string/time_overview"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+
+                    <org.eazegraph.lib.charts.ValueLineChart
+                        android:id="@+id/cubicLineChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/a2"
+                        android:layout_marginTop="20dp"
+                        app:egCurveSmoothness="0.5"
+                        app:egLegendHeight="40dp"
+                        app:egUseCubic="true"
+                        app:egUseOverlapFill="true" />
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/time_period_spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/a2"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginRight="15dp"
+                        android:entries="@array/time_period_spinner_entries">
+
+                    </android.support.v7.widget.AppCompatSpinner>
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/goal_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card_view_today"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:transitionName="@string/transition_name_goal_view"
+                app:cardBackgroundColor="@color/colorPrimary"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="5dp"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="true">
+
+                <RelativeLayout
+                    android:id="@+id/daily_goal_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:gravity="center">
+
+                    <RelativeLayout
+                        android:id="@+id/goal_card_view_leftLayout"
+                        android:layout_width="155dp"
+                        android:layout_height="155dp">
+
+                        <org.eazegraph.lib.charts.PieChart
+                            android:id="@+id/pieChart"
+                            android:layout_width="135dp"
+                            android:layout_height="135dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:padding="8dp" />
+
+                        <TextView
+                            android:id="@+id/goal_percentage_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center"
+                            android:text="36%"
+                            android:textSize="30sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="155dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_toEndOf="@+id/goal_card_view_leftLayout"
+                        android:gravity="center_vertical"
+                        android:paddingEnd="40dp"
+                        android:paddingLeft="0dp"
+                        android:paddingRight="40dp"
+                        android:paddingStart="0dp">
+
+                        <TextView
+                            android:id="@+id/daily_goal_title_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/daily_goal"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="25sp" />
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/daily_goal_title_tv"
+                            android:layout_marginTop="10dp">
+
+                            <android.support.v7.widget.CardView
+                                android:id="@+id/completed_legend"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                app:cardBackgroundColor="?attr/colorAccent"
+                                app:cardElevation="3dp" />
+
+                            <android.support.v7.widget.CardView
+                                android:id="@+id/incomplete_legend"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_below="@id/completed_legend"
+                                android:layout_marginTop="10dp"
+                                app:cardBackgroundColor="?attr/colorPrimaryDark"
+                                app:cardElevation="3dp" />
+
+                            <TextView
+                                android:id="@+id/daily_goal_completed_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBottom="@+id/completed_legend"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_toEndOf="@id/completed_legend"
+                                android:layout_toRightOf="@id/completed_legend"
+                                android:text="@string/completed"
+                                android:textColor="@color/white"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/daily_goal_incomplete_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBottom="@+id/incomplete_legend"
+                                android:layout_alignTop="@+id/incomplete_legend"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_toEndOf="@id/incomplete_legend"
+                                android:layout_toRightOf="@id/incomplete_legend"
+                                android:text="@string/incomplete"
+                                android:textColor="@color/white"
+                                android:textSize="15sp" />
+
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</RelativeLayout>

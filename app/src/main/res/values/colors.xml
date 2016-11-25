@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="transparent">#00000000</color>
+    <color name="window_background">#FFF5F5F5</color>
 
     <color name="white">#ffffff</color>
-    <color name="dark_gray">#4b5159</color>
-    <color name="dark_gray_pressed">#373e44</color>
-    <color name="darker_gray">#1f2226</color>
+    <color name="white_0_5">#32FFFFFF</color>
+    <color name="white_0_10">#64FFFFFF</color>
+
     <color name="light_green">#8ad001</color>
     <color name="light_orange">#ce510f</color>
-    <color name="thumbColor">#66aaaaaa</color>
+    <color name="thumbColor">#ffffff</color>
 
+    <color name="black">#111111</color>
+    <color name="gray">#333333</color>
+
+    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimaryDark">#00796B</color>
+    <color name="colorPrimaryLight">#455a64</color>
+    <color name="colorAccent">#FFC107</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#757575</color>
+    <color name="colorIcons">#FFFFFF</color>
+    <color name="colorDivider">#BDBDBD</color>
+    <color name="colorGreyBackGround">#FFE8E8E8</color>
 
 </resources>

@@ -1,19 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:id="@+id/dialog_backrootView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-<RelativeLayout
     android:id="@+id/dialog_rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#8c000000"
     android:padding="24dp" >
 
     <RelativeLayout
@@ -22,17 +12,17 @@
         android:layout_height="wrap_content"
         android:padding="24dp"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/timeDialog_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:text="@string/goodJob"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#ffffff"
+            android:textColor="@color/colorPrimaryDark"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="15dp" />
 
@@ -40,8 +30,8 @@
             android:id="@+id/message_scrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/title"
-            android:paddingBottom="50dp"
+            android:layout_below="@id/timeDialog_title"
+
             android:scrollbarSize="2dp"
             android:scrollbarThumbVertical="@color/thumbColor" >
 
@@ -52,15 +42,28 @@
                 android:id="@+id/relativeLayout4"
                 android:paddingBottom="20dp">
 
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/targetAchieved"
+                    android:textSize="18sp"
+                    android:textColor="@color/gray"
+                    android:textIsSelectable="false"
+                    android:id="@+id/timeDialog_msg"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="15dp" />
+
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:src="@drawable/check_mark"
-                    android:id="@+id/markImage"
-                    android:layout_below="@+id/msg"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="40dp" />
-
+                    android:id="@+id/timeDialog_markImage"
+                    android:layout_marginTop="39dp"
+                    android:layout_below="@+id/timeDialog_msg"
+                    android:layout_centerHorizontal="true" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -68,23 +71,9 @@
                     android:text="00:00:00"
                     android:textSize="45dp"
                     android:textIsSelectable="false"
-                    android:id="@+id/time"
-                    android:layout_below="@+id/markImage"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="20dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/targetAchieved"
-                    android:textSize="18sp"
-                    android:textColor="#ffffff"
-                    android:textIsSelectable="false"
-                    android:id="@+id/msg"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginLeft="15dp" />
+                    android:id="@+id/timeDialog_timeText"
+                    android:layout_below="@+id/timeDialog_markImage"
+                    android:layout_centerHorizontal="true" />
             </RelativeLayout>
         </ScrollView>
 
@@ -96,30 +85,14 @@
             android:gravity="right"
             android:orientation="horizontal" >
 
-            <carbonylgroup.away.material_design_uilibrary.views.ButtonFlat
-                android:id="@+id/button_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="Cancel"
-                android:background="#1E88E5"
-                android:visibility="gone" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-                <carbonylgroup.away.material_design_uilibrary.views.ButtonFlat
-                    android:id="@+id/button_accept"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:text="YES"
-                    android:background="#ffffff"
-                    android:layout_margin="2dp" />
 
             </RelativeLayout>
 
         </LinearLayout>
     </RelativeLayout>
 
-</RelativeLayout>
 </RelativeLayout>

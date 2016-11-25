@@ -9,6 +9,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -87,7 +88,8 @@ public class CircleSeekBar extends View {
 		initView();
 	}
 
-	private void initView(){
+
+	public void initView(){
 	//	if(DEBUG) Log.d(TAG, "initView");
 		TypedArray localTypedArray = mContext.obtainStyledAttributes(mAttrs, R.styleable.CircleSeekBar);
 
@@ -103,9 +105,10 @@ public class CircleSeekBar extends View {
 		mThumbPressed = new int[]{android.R.attr.state_focused, android.R.attr.state_pressed,
 				android.R.attr.state_selected, android.R.attr.state_checked};
 
-		float progressWidth = localTypedArray.getDimension(R.styleable.CircleSeekBar_progress_width, 5);
-		int progressBackgroundColor = localTypedArray.getColor(R.styleable.CircleSeekBar_progress_background, Color.parseColor("#373e44"));
-		int progressFrontColor = localTypedArray.getColor(R.styleable.CircleSeekBar_progress_front, Color.BLUE);
+		//width
+		float progressWidth = dip2px(getContext(), 3);
+		int progressBackgroundColor = getResources().getColor(R.color.white_0_5);
+		int progressFrontColor = getResources().getColor(R.color.white);
 		mSeekBarMax = 35;
 
 		mSeekbarProgressPaint = new Paint();
@@ -200,10 +203,6 @@ public class CircleSeekBar extends View {
 		}
 	}
 
-	public void setEnability(boolean enability1)
-	{
-		enability = enability1;
-	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -313,7 +312,6 @@ public class CircleSeekBar extends View {
 		}
 		mCurrentProgress = progress+1;
 		mSeekBarDegree = (progress * 360 / mSeekBarMax);
-	//	if(DEBUG) Log.d(TAG, "setProgress mSeekBarDegree = " + mSeekBarDegree);
 		setThumbPosition(Math.toRadians(mSeekBarDegree));
 
 		invalidate();
