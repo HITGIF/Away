@@ -6,13 +6,13 @@ package carbonylgroup.away.fragments;
 
 
 import android.app.Fragment;
+import android.app.TimePickerDialog;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ScrollingView;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -26,18 +26,17 @@ import android.view.animation.ScaleAnimation;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
-import carbonylgroup.away.R;
-import carbonylgroup.away.activities.MainActivity;
-import carbonylgroup.away.classes.BitmapUtil;
-import carbonylgroup.away.classes.DetailsTransition;
-import carbonylgroup.away.classes.TransitionHelper;
+import java.util.Date;
 
+import carbonylgroup.away.R;
+import carbonylgroup.away.classes.HistoryHandler;
 
 public class DetailFragment extends Fragment {
 
@@ -45,8 +44,17 @@ public class DetailFragment extends Fragment {
     private int primaryDark;
     private int primary;
     private int accent;
-    private View view;
+    private long totalTime;
+    private long completedTime;
+
     private Animation edit_fab_in;
+    private HistoryHandler historyHandler;
+
+    private View view;
+    private PieChart detail_pie_chart;
+    private TextView total_time_tv;
+    private TextView completed_time_tv;
+    private TimePickerDialog timePickerDialog;
     private FloatingActionButton edit_fab;
 
     @Override
@@ -58,27 +66,40 @@ public class DetailFragment extends Fragment {
         initValue();
         initUI();
 
-
         return view;
     }
 
     private void initValue() {
 
+        historyHandler = new HistoryHandler(getActivity());
+
+        total_time_tv = (TextView) view.findViewById(R.id.total_time_tv);
+        completed_time_tv = (TextView) view.findViewById(R.id.completed_time_tv);
+
+        detail_pie_chart = (PieChart) view.findViewById(R.id.detail_pie_chart);
         edit_fab = (FloatingActionButton) view.findViewById(R.id.edit_fab);
+        edit_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        historyHandler.setGoal(hourOfDay, minute);
+                    }
+                };
+                timePickerDialog = new TimePickerDialog(getActivity(), onTimeSetListener, 0, 0, true);
+                timePickerDialog.show();
+            }
+        });
+
+        initTime();
         initColor();
     }
 
     private void initUI() {
 
-
-    }
-
-    private void initColor() {
-
-        white = getResources().getColor(R.color.white);
-        primaryDark = getResources().getColor(R.color.colorPrimaryDark);
-        primary = getResources().getColor(R.color.colorPrimary);
-        accent = getResources().getColor(R.color.colorAccent);
+        initTextViews();
+        initPieChart();
     }
 
     private void initAnim() {
@@ -89,6 +110,37 @@ public class DetailFragment extends Fragment {
         edit_fab_in.setInterpolator(new DecelerateInterpolator());
 
         displayViewAnimation();
+    }
+
+    private void initTime(){
+
+        long todayTime;
+        totalTime = historyHandler.getGoalInNum();
+        todayTime = historyHandler.getTimeOfDay(new Date());
+        completedTime = todayTime > totalTime ? totalTime : todayTime;
+    }
+
+    private void initColor() {
+
+        white = getResources().getColor(R.color.white);
+        primaryDark = getResources().getColor(R.color.colorPrimaryDark);
+        primary = getResources().getColor(R.color.colorPrimary);
+        accent = getResources().getColor(R.color.colorAccent);
+    }
+
+    private void initTextViews() {
+
+        total_time_tv.setText(historyHandler.getGoalInStr());
+        completed_time_tv.setText(historyHandler.S2HM(completedTime));
+    }
+
+    private void initPieChart() {
+
+        detail_pie_chart.clearChart();
+        detail_pie_chart.addPieSlice(new PieModel("Completed", completedTime, accent));
+        detail_pie_chart.addPieSlice(new PieModel("Incomplete", totalTime - completedTime, primaryDark));
+        detail_pie_chart.setAnimationTime(1000);
+        detail_pie_chart.startAnimation();
     }
 
     private void displayViewAnimation() {

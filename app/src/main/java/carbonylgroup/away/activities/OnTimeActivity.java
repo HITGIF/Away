@@ -86,7 +86,7 @@ public class OnTimeActivity extends Activity {
                     /** Completed */
                     if (timeInSeconds == 0) {
                         timeUp();
-                        historyHandler.writeData(new Date(), targetTime);
+                        historyHandler.writeHistory(new Date(), targetTime);
                         showWinDialog();
                     }
                     /** Lost */

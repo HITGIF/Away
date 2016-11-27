@@ -26,6 +26,8 @@ public class HistoryHandler {
     public enum timePeriod {TODAY, THIS_WEEK, THIS_MONTH, THIS_YEAR}
 
     private long totalTime;
+    private long goalTime;
+
     private Context mContext;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS", Locale.CHINA);
     private ArrayList<History> all_Histories;
@@ -34,7 +36,7 @@ public class HistoryHandler {
     public HistoryHandler(Context context) {
 
         mContext = context;
-        readData();
+        readHistory();
     }
 
     /* For Line Chart */
@@ -257,7 +259,7 @@ public class HistoryHandler {
     }
 
     /* For TextView */
-    private long getTimeOfDay(Date date) {
+    public long getTimeOfDay(Date date) {
 
         int dayTime = 0;
         for (History h : all_Histories) {
@@ -317,8 +319,39 @@ public class HistoryHandler {
         return forUnit ? unit : time_display;
     }
 
+    /* For Goal */
+    private long HM2S(long _hour, long _minute) {
+        return _hour * 3600 + _minute * 60;
+    }
+
+    public String S2HM(long _second) {
+
+        String hour = (_second / 3600) < 10 ? "0" + String.valueOf(_second / 3600) : String.valueOf(_second / 3600);
+        String minute = (_second % 3600 / 60) < 10 ? "0" + String.valueOf(_second % 3600 / 60) : String.valueOf(_second % 3600 / 60);
+        return hour + ":" + minute;
+    }
+
+    public void setGoal(long _hour, long _minute) {
+
+        long _goalTime = HM2S(_hour, _minute);
+        if (_goalTime != goalTime)
+            writeGoal(_goalTime);
+    }
+
+    public long getGoalInNum() {
+
+        readGoal();
+        return goalTime;
+    }
+
+    public String getGoalInStr() {
+
+        readGoal();
+        return S2HM(goalTime);
+    }
+
     /* IO */
-    public void writeData(Date _date, int _time_took) {
+    public void writeHistory(Date _date, int _time_took) {
 
         all_Histories.add(new History(_date, _time_took));
         totalTime += _time_took;
@@ -329,13 +362,14 @@ public class HistoryHandler {
         }
         hs = hs.substring(0, hs.length() - 3);
 
+        spReader = mContext.getSharedPreferences("data", Activity.MODE_PRIVATE);
         SharedPreferences.Editor spEditor = spReader.edit();
         spEditor.putString("histories", hs);
         spEditor.putLong("totalTime", totalTime);
         spEditor.apply();
     }
 
-    private void readData() {
+    private void readHistory() {
 
         spReader = mContext.getSharedPreferences("data", Activity.MODE_PRIVATE);
         all_Histories = new ArrayList<>();
@@ -352,6 +386,21 @@ public class HistoryHandler {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void writeGoal(long _goalTime) {
+
+        spReader = mContext.getSharedPreferences("data", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor spEditor = spReader.edit();
+        goalTime = _goalTime;
+        spEditor.putLong("goal", goalTime);
+        spEditor.apply();
+    }
+
+    private void readGoal() {
+
+        spReader = mContext.getSharedPreferences("data", Activity.MODE_PRIVATE);
+        goalTime = spReader.getLong("goal", 0);
     }
 
     private String getTimeAs(long time, getTimeAsInput input) {

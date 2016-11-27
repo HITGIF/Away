@@ -33,6 +33,7 @@
     <string name="total_earned">Total Earned</string>
     <string name="daily_goal">Daily Goal</string>
     <string name="total">Total</string>
+    <string name="my_goal">My Goal</string>
     <string name="completed">Completed</string>
     <string name="incomplete">Incomplete</string>
     <string name="last_seven_days_earned">Last 7 Days (min)</string>
@@ -48,6 +49,7 @@
     <string name="day_short">d</string>
     <string name="month_short">m</string>
     <string name="year_short">y</string>
+    <string name="percentage_sign">%</string>
 
     <string name="transition_name_goal_view">transition:GOAL_VIEW</string>
 </resources>

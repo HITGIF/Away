@@ -36,6 +36,7 @@ import org.eazegraph.lib.models.ValueLinePoint;
 import org.eazegraph.lib.models.ValueLineSeries;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import carbonylgroup.away.R;
 import carbonylgroup.away.activities.MainActivity;
@@ -58,6 +59,9 @@ public class DashboardFragment extends Fragment {
     private int primaryDark;
     private int primary;
     private int accent;
+    private long totalTime;
+    private long completedTime;
+
     private HistoryHandler historyHandler;
     private Animation daily_goal_title_fade_in;
 
@@ -94,6 +98,7 @@ public class DashboardFragment extends Fragment {
         historyHandler = new HistoryHandler(getActivity());
         timePeriod = HistoryHandler.timePeriod.TODAY;
 
+        initTime();
         initColor();
         initViews();
         initCharts();
@@ -132,6 +137,14 @@ public class DashboardFragment extends Fragment {
         });
     }
 
+    private void initTime() {
+
+        long todayTime;
+        totalTime = historyHandler.getGoalInNum();
+        todayTime = historyHandler.getTimeOfDay(new Date());
+        completedTime = todayTime > totalTime ? totalTime : todayTime;
+    }
+
     private void initColor() {
 
         white = getResources().getColor(R.color.white);
@@ -156,7 +169,6 @@ public class DashboardFragment extends Fragment {
         goal_card_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 gotoDailyGoalDetail();
             }
         });
@@ -223,10 +235,12 @@ public class DashboardFragment extends Fragment {
 
     private void initPieChart() {
 
+        String percentage = String.valueOf((long)(Double.longBitsToDouble(completedTime) / Double.longBitsToDouble(totalTime) * 100)) + getString(R.string.percentage_sign);
+        goal_percentage_tv.setText(percentage);
         mPieChart = (PieChart) view.findViewById(R.id.pieChart);
         mPieChart.clearChart();
-        mPieChart.addPieSlice(new PieModel("Completed", 36, accent));
-        mPieChart.addPieSlice(new PieModel("Incomplete", 64, primaryDark));
+        mPieChart.addPieSlice(new PieModel("Completed", completedTime, accent));
+        mPieChart.addPieSlice(new PieModel("Incomplete", totalTime - completedTime, primaryDark));
         mPieChart.setAnimationTime(500);
     }
 
@@ -244,9 +258,8 @@ public class DashboardFragment extends Fragment {
 
         mBarChart.setShowValues(true);
         mBarChart.setDrawingCacheBackgroundColor(white);
-        mBarChart.setAnimationTime(500);
         mBarChart.setLegendColor(white);
-        mBarChart.setVisibility(View.INVISIBLE);
+        mBarChart.setAnimationTime(500);
     }
 
     private void initLineChart() {
