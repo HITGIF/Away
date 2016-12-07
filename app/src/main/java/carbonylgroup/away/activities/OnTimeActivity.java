@@ -13,11 +13,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.PowerManager;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +37,7 @@ import android.os.Handler;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -69,31 +72,25 @@ public class OnTimeActivity extends Activity {
     private View.OnClickListener giveUp_btOC;
     private DialogInterface.OnClickListener giveUpOC;
 
-    /**
-     * Timer_Process
-     */
+    /* Timer_Process */
     private final Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
-                    /** Keep working when sleeping */
+                    /** Keep working while sleeping */
                     acquireWakeLock();
 
+                    /** Timer Process */
                     initTimeWithS(timeInSeconds - 1);
                     timeInText = getTimeInHMS();
                     showTime(timeInText);
 
                     /** Completed */
-                    if (timeInSeconds == 0) {
-                        timeUp();
-                        historyHandler.writeHistory(new Date(), targetTime);
-                        showWinDialog();
-                    }
+                    if (timeInSeconds == 0) timeUp(true);
+
                     /** Lost */
-                    if (isBackground(OnTimeActivity.this)) {
-                        timeUp();
-                        showLostDialog();
-                    }
+                    if (isBackground(OnTimeActivity.this)) timeUp(false);
+
                     break;
             }
             super.handleMessage(msg);
@@ -103,6 +100,7 @@ public class OnTimeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        initBase();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.on_timing);
 
@@ -144,12 +142,12 @@ public class OnTimeActivity extends Activity {
         return super.onKeyDown(keyCode, event);
     }
 
-    private void endActivity() {
+    /* Initializer */
+    private void initBase() {
 
-        timeUp();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            animateRevealGone(timing_layout);
+        historyHandler = new HistoryHandler(OnTimeActivity.this);
+        setTheme(historyHandler.getThemeIdNow());
+        setLanguage(historyHandler.getLanguageIdNow());
     }
 
     private void initOnClick() {
@@ -171,15 +169,13 @@ public class OnTimeActivity extends Activity {
 
     private void initValue() {
 
-        historyHandler = new HistoryHandler(OnTimeActivity.this);
-        
         initView();
 
         /** Get Intent Value */
         Intent intent = getIntent();
         targetTime = intent.getIntExtra("time", 0);
-        //initTimeWithS(targetTime);
-        initTimeWithS(5);
+        initTimeWithS(targetTime);
+        //initTimeWithS(5);
         if (intent.getIntExtra("time", 0) != 0) {
             timeInText = getTimeInHMS();
             showTime(timeInText);
@@ -228,7 +224,7 @@ public class OnTimeActivity extends Activity {
         lostDialogBuilder.setCancelable(false);
 
         winDialogBuilder = new AlertDialog.Builder(OnTimeActivity.this);
-        winDialogBuilder.setPositiveButton(getString(R.string.OK), giveUpOC);
+        winDialogBuilder.setPositiveButton(getString(R.string.GOT_IT), giveUpOC);
         winDialogBuilder.setView(timeDialogView);
         winDialogBuilder.setCancelable(false);
     }
@@ -258,6 +254,7 @@ public class OnTimeActivity extends Activity {
         time_seconds = (seconds_h % 3600) % 60;
     }
 
+    /* Timer */
     private String getTimeInHMS() {
 
         String hour = time_hours < 10 ? "0" + String.valueOf(time_hours) : String.valueOf(time_hours);
@@ -282,9 +279,14 @@ public class OnTimeActivity extends Activity {
         time_text.setText(timeInText);
     }
 
-    private void timeUp() {
+    private void timeUp(boolean win) {
 
         endTimerTask();
+
+        if (win) {
+            historyHandler.writeHistory(new Date(), targetTime);
+            showWinDialog();
+        } else showLostDialog();
     }
 
     private void startTimerTask() {
@@ -297,6 +299,7 @@ public class OnTimeActivity extends Activity {
         timer.cancel();
     }
 
+    /* Other Methods */
     private void showGiveUpDialog() {
 
         giveUpDialogBuilder.show();
@@ -413,32 +416,20 @@ public class OnTimeActivity extends Activity {
         }
     }
 
-//                    /** Prepare blurred bitmap */
-//                    if (timeInSeconds == 2) {
-//                        showTime(getTimeInHMS(0));
-//                        shot_screen = ScreenShot(OnTimeActivity.this);
-//                        showTime(getTimeInHMS(2));
-//                        Thread thread = new Thread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                shot_screen = FastBlur.doBlur(shot_screen, 10, false);
-//                            }
-//                        });
-//                        thread.start();
-//                    }
+    private void endActivity() {
 
-//        public Bitmap ScreenShot(Activity activity) {
-//
-//        View view = activity.getWindow().getDecorView();
-//        view.buildDrawingCache();
-//        Display display = activity.getWindowManager().getDefaultDisplay();
-//
-//        int widths = display.getWidth();
-//        int heights = display.getHeight();
-//        view.setDrawingCacheEnabled(true);
-//        Bitmap bmp = Bitmap.createBitmap(view.getDrawingCache(), 0, 0, widths, heights);
-//        view.destroyDrawingCache();
-//
-//        return bmp;
-//    }
+        endTimerTask();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            animateRevealGone(timing_layout);
+    }
+
+    private void setLanguage(Locale language) {
+
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        Configuration configuration = getResources().getConfiguration();
+        configuration.locale = language;
+        getResources().updateConfiguration(configuration, displayMetrics);
+    }
+
 }

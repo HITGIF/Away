@@ -8,11 +8,12 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.AppCompatSpinner;
-import android.transition.Fade;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -42,6 +43,11 @@ import carbonylgroup.away.R;
 import carbonylgroup.away.activities.MainActivity;
 import carbonylgroup.away.classes.DetailsTransition;
 import carbonylgroup.away.classes.HistoryHandler;
+
+
+import static android.support.v7.appcompat.R.attr.colorAccent;
+import static carbonylgroup.away.R.attr.colorPrimary;
+import static carbonylgroup.away.R.attr.colorPrimaryDark;
 
 
 public class DashboardFragment extends Fragment {
@@ -93,6 +99,12 @@ public class DashboardFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        MainActivity.of(getActivity()).setToolBarElevation(0);
+        super.onDestroyView();
+    }
+
     private void initValue() {
 
         historyHandler = new HistoryHandler(getActivity());
@@ -115,6 +127,7 @@ public class DashboardFragment extends Fragment {
         else
             MainActivity.of(getActivity()).setPresentFragment(2);
 
+        MainActivity.of(getActivity()).setToolBarElevation(10);
     }
 
     private void displayViewAnimation() {
@@ -140,7 +153,7 @@ public class DashboardFragment extends Fragment {
     private void initTime() {
 
         long todayTime;
-        totalTime = historyHandler.getGoalInNum();
+        totalTime = historyHandler.getGoalInNum(0);
         todayTime = historyHandler.getTimeOfDay(new Date());
         completedTime = todayTime > totalTime ? totalTime : todayTime;
     }
@@ -148,9 +161,14 @@ public class DashboardFragment extends Fragment {
     private void initColor() {
 
         white = getResources().getColor(R.color.white);
-        primaryDark = getResources().getColor(R.color.colorPrimaryDark);
-        primary = getResources().getColor(R.color.colorPrimary);
-        accent = getResources().getColor(R.color.colorAccent);
+
+        TypedValue typedValue = new TypedValue();
+        getActivity().getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValue, true);
+        primaryDark = typedValue.data;
+        getActivity().getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        primary = typedValue.data;
+        getActivity().getTheme().resolveAttribute(R.attr.colorAccent, typedValue, true);
+        accent = typedValue.data;
     }
 
     private void initViews() {
@@ -235,7 +253,8 @@ public class DashboardFragment extends Fragment {
 
     private void initPieChart() {
 
-        String percentage = String.valueOf((long)(Double.longBitsToDouble(completedTime) / Double.longBitsToDouble(totalTime) * 100)) + getString(R.string.percentage_sign);
+        String percentage = String.valueOf((long)(Double.longBitsToDouble(completedTime) /
+                Double.longBitsToDouble(totalTime) * 100)) + getString(R.string.percentage_sign);
         goal_percentage_tv.setText(percentage);
         mPieChart = (PieChart) view.findViewById(R.id.pieChart);
         mPieChart.clearChart();

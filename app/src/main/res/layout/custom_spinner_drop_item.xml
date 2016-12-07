@@ -6,4 +6,4 @@
     android:ellipsize="marquee"
     android:maxLines="1"
     android:textAlignment="inherit"
-    android:textColor="@color/colorPrimaryText" />
+    android:textColor="@color/black" />

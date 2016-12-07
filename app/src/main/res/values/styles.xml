@@ -2,44 +2,74 @@
 
 <resources>
 
-    <style name="Theme.Design" parent="Base.Theme.Design"/>
-
-    <style name="Base.Theme.Design" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.Design" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="actionMenuTextColor">#fff</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowBackground">@color/colorGreyBackGround</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBarOverlay">true</item>
-
     </style>
 
-    <style name="Toolbar">
-
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
-        <!-- android:textColorPrimary is the  color of the title text
-             in the Toolbar, in the Theme.AppCompat theme:  -->
-        <item name="android:textColorPrimary">@android:color/white</item>
-
-        <!-- android:actionMenuTextColor is the color of the text of
-              action (menu) items in the Toolbar, at least in the
-              Theme.AppCompat theme.
-              For some reason, they already getObservable the textColorPrimary
-              when running on API 21, but not on older versions of
-              Android, so this is only necessary to support older
-              Android versions.-->
-        <item name="actionMenuTextColor">@android:color/white</item>
-        <!-- android:textColorSecondary is the color of the menu
-             overflow icon (three vertical dots) -->
-        <item name="android:textColorSecondary">@android:color/white</item>
-
-        <!-- This would put the toolbar's background color,
-              but setting this also changes the popup menu's background,
-              even if we define popupTheme for our <Toolbar> -->
-        <!--<item name="android:background">@color/primaryColor</item>-->
+    <style name="Theme.Tomato" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/tomato_primary</item>
+        <item name="colorPrimaryDark">@color/tomato_PrimaryDark</item>
+        <item name="colorAccent">@color/tomato_Accent</item>
     </style>
+
+    <style name="Theme.Tangerine" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/tangerine_primary</item>
+        <item name="colorPrimaryDark">@color/tangerine_PrimaryDark</item>
+        <item name="colorAccent">@color/tangerine_Accent</item>
+    </style>
+
+    <style name="Theme.Basil" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/basil_primary</item>
+        <item name="colorPrimaryDark">@color/basil_PrimaryDark</item>
+        <item name="colorAccent">@color/basil_Accent</item>
+    </style>
+
+    <style name="Theme.Sage" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/sage_primary</item>
+        <item name="colorPrimaryDark">@color/sage_PrimaryDark</item>
+        <item name="colorAccent">@color/sage_Accent</item>
+    </style>
+
+    <style name="Theme.Peacock" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/peacock_primary</item>
+        <item name="colorPrimaryDark">@color/peacock_PrimaryDark</item>
+        <item name="colorAccent">@color/peacock_Accent</item>
+    </style>
+
+    <style name="Theme.Blueberry" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/blueberry_primary</item>
+        <item name="colorPrimaryDark">@color/blueberry_PrimaryDark</item>
+        <item name="colorAccent">@color/blueberry_Accent</item>
+    </style>
+
+    <style name="Theme.Lavender" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/lavender_primary</item>
+        <item name="colorPrimaryDark">@color/lavender_PrimaryDark</item>
+        <item name="colorAccent">@color/lavender_Accent</item>
+    </style>
+
+    <style name="Theme.Grape" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/grape_primary</item>
+        <item name="colorPrimaryDark">@color/grape_PrimaryDark</item>
+        <item name="colorAccent">@color/grape_Accent</item>
+    </style>
+
+    <style name="Theme.Flamingo" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/flamingo_primary</item>
+        <item name="colorPrimaryDark">@color/flamingo_PrimaryDark</item>
+        <item name="colorAccent">@color/flamingo_Accent</item>
+    </style>
+
+    <style name="Theme.Graphite" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/graphite_primary</item>
+        <item name="colorPrimaryDark">@color/graphite_PrimaryDark</item>
+        <item name="colorAccent">@color/graphite_Accent</item>
+    </style>
+
+
 
 </resources>

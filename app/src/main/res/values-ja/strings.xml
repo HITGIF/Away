@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">離れて</string>
+
+    <string name="drawer_hint">ナビゲーションドロワー</string>
+    <string name="open_drawer">引き出しを開ける</string>
+    <string name="close_drawer">引き出しが閉じた</string>
+
+    <string name="home">ホーム</string>
+    <string name="dashboard">ダッシュボード</string>
+    <string name="friends">友達</string>
+    <string name="leaderboard">リーダーボード</string>
+    <string name="preference">環境設定</string>
+    <string name="theme">テーマ</string>
+    <string name="language">言語</string>
+
+    <string name="leaveMeAlong">私をほっといて！</string>
+    <string name="giveUpDiaTitle">諦めたいですか?</string>
+    <string name="giveUpDiaMessage">諦めたら、時間がなくなります！</string>
+    <string name="stay">滞在</string>
+    <string name="giveUp">諦める</string>
+    <string name="goodJob">よくやった！</string>
+    <string name="targetAchieved">あなたの時間は記録されています :)</string>
+    <string name="GOT_IT">理解します</string>
+    <string name="whatAPity">お気の毒に！</string>
+    <string name="targetNotAchieved">あなたはあなたの時間を失ってしまった :(</string>
+    <string name="myFault">私のせい</string>
+
+    <string name="sample_username">Gustav Wang</string>
+
+    <string name="today_earned">今日は獲得</string>
+    <string name="total_earned">合計で</string>
+    <string name="daily_goal">毎日の目標</string>
+    <string name="my_goal">私の目標</string>
+    <string name="finished">完成した</string>
+    <string name="unfinished">未完成</string>
+    <string name="last_seven_days_earned">過去7日間 (分)</string>
+    <string name="time_overview">概要 (時)</string>
+    <string name="today">今日</string>
+    <string name="this_week">今週</string>
+    <string name="this_month">今月</string>
+    <string name="this_year">今年</string>
+
+    <string name="min_short">\'</string>
+    <string name="hour_short">h</string>
+    <string name="day_short">d</string>
+    <string name="month_short">m</string>
+    <string name="year_short">y</string>
+    <string name="percentage_sign">%</string>
+
+    <string name="choose_your_favorite_color">あなたの好きな色を選んでください</string>
+    <string name="tomato">トマト</string>
+    <string name="tangerine">タンジェリン</string>
+    <string name="banana">バナナ</string>
+    <string name="basil">バジル</string>
+    <string name="sage">セージ</string>
+    <string name="peacock">孔雀</string>
+    <string name="blueberry">ブルーベリー</string>
+    <string name="lavender">ラベンダー</string>
+    <string name="grape">グレープ</string>
+    <string name="flamingo">フラミンゴ</string>
+    <string name="graphite">黒鉛</string>
+
+    <string name="choose_your_preferred_language">あなたの好みの言語を選んでください</string>
+    <string name="english">English</string>
+    <string name="simplified_chinese">简体中文</string>
+    <string name="traditional_chinese">繁體中文</string>
+    <string name="german">Deutsch</string>
+    <string name="japanese">日本語</string>
+
+    <string name="transition_name_goal_view">transition:GOAL_VIEW</string>
+</resources>

@@ -8,30 +8,60 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import carbonylgroup.away.R;
 
 
 public class HistoryHandler {
 
-    private enum getTimeAsInput {YEAR, MONTH, DAY, HOUR, MIN}
-
     public enum timePeriod {TODAY, THIS_WEEK, THIS_MONTH, THIS_YEAR}
+
+    private enum getTimeAsInput {YEAR, MONTH, DAY, HOUR, MIN}
 
     private long totalTime;
     private long goalTime;
+    private int themeIdNow;
+    private Locale languageIdNow;
+
+    private int[] themeIds = {R.style.Theme_Tomato, R.style.Theme_Tangerine,
+            R.style.Theme_Basil, R.style.Theme_Sage, R.style.Theme_Peacock,
+            R.style.Theme_Blueberry, R.style.Theme_Lavender, R.style.Theme_Grape,
+            R.style.Theme_Flamingo, R.style.Theme_Graphite};
+
+    private int[] colorTitles = {R.string.tomato, R.string.tangerine,
+            R.string.basil, R.string.sage, R.string.peacock,
+            R.string.blueberry, R.string.lavender, R.string.grape,
+            R.string.flamingo, R.string.graphite};
+
+    private int[] colorImgs = {R.drawable.color_img_tomato, R.drawable.color_img_tangerine,
+            R.drawable.color_img_basil, R.drawable.color_img_sage, R.drawable.color_img_peacock,
+            R.drawable.color_img_bluebarry, R.drawable.color_img_lavender, R.drawable.color_img_grape,
+            R.drawable.color_img_flamingo, R.drawable.color_img_graphite};
+
+    private Locale[] languageIds = {Locale.ENGLISH, Locale.SIMPLIFIED_CHINESE,
+            Locale.TRADITIONAL_CHINESE, Locale.GERMAN, Locale.JAPANESE};
+
+    private int[] languageTitles = {R.string.english, R.string.simplified_chinese,
+            R.string.traditional_chinese, R.string.german, R.string.japanese};
+
+    private int[] languageImgs = {R.drawable.uk, R.drawable.china,
+            R.drawable.taiwan, R.drawable.germany, R.drawable.japan};
 
     private Context mContext;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS", Locale.CHINA);
-    private ArrayList<History> all_Histories;
     private SharedPreferences spReader;
+    private ArrayList<History> all_Histories;
 
     public HistoryHandler(Context context) {
 
@@ -40,6 +70,22 @@ public class HistoryHandler {
     }
 
     /* For Line Chart */
+    public int howManyDaysInThisMonth() {
+        Calendar calendar = Calendar.getInstance();
+        switch (calendar.MONTH) {
+            case 4:
+                return 30;
+            case 6:
+                return 30;
+            case 9:
+                return 30;
+            case 11:
+                return 30;
+            default:
+                return 31;
+        }
+    }
+
     public ArrayList<Float> getDataWithin(timePeriod period) {
 
         ArrayList<Float> time_num = new ArrayList<>();
@@ -224,22 +270,6 @@ public class HistoryHandler {
         return (calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR));
     }
 
-    public int howManyDaysInThisMonth() {
-        Calendar calendar = Calendar.getInstance();
-        switch (calendar.MONTH) {
-            case 4:
-                return 30;
-            case 6:
-                return 30;
-            case 9:
-                return 30;
-            case 11:
-                return 30;
-            default:
-                return 31;
-        }
-    }
-
     /* For Bar Chart */
     public long[] getMinutesWithinThisWeek() {
 
@@ -320,8 +350,31 @@ public class HistoryHandler {
     }
 
     /* For Goal */
-    private long HM2S(long _hour, long _minute) {
-        return _hour * 3600 + _minute * 60;
+    public void setGoal(long _hour, long _minute) {
+
+        long _goalTime = HM2S(_hour, _minute);
+        if (_goalTime != goalTime)
+            writeGoal(_goalTime);
+    }
+
+    public long getGoalInNum(int fullOrHOrS) {
+
+        readGoal();
+        switch (fullOrHOrS) {
+            case 0:
+                return goalTime;
+            case 1:
+                return goalTime / 3600;
+            case 2:
+                return goalTime % 3600 / 60;
+        }
+        return 0;
+    }
+
+    public String getGoalInStr() {
+
+        readGoal();
+        return S2HM(goalTime);
     }
 
     public String S2HM(long _second) {
@@ -331,23 +384,80 @@ public class HistoryHandler {
         return hour + ":" + minute;
     }
 
-    public void setGoal(long _hour, long _minute) {
+    private long HM2S(long _hour, long _minute) {
 
-        long _goalTime = HM2S(_hour, _minute);
-        if (_goalTime != goalTime)
-            writeGoal(_goalTime);
+        return _hour * 3600 + _minute * 60;
     }
 
-    public long getGoalInNum() {
+    /* For Theme */
+    public int getThemeIdNow() {
 
-        readGoal();
-        return goalTime;
+        readTheme();
+        return themeIdNow;
     }
 
-    public String getGoalInStr() {
+    public void setThemeIdNow(int _themeIdPos) {
 
-        readGoal();
-        return S2HM(goalTime);
+        if (themeIds[_themeIdPos] != themeIdNow)
+            writeTheme(_themeIdPos);
+    }
+
+    public List<Map<String, Object>> getThemeData() {
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        Map<String, Object> map;
+
+        for (int i = 0; i < themeIds.length; i++) {
+
+            map = new HashMap<>();
+            map.put("img", colorImgs[i]);
+            if (themeIdNow == themeIds[i]) {
+                map.put("selectedTitle", getResStr(colorTitles[i]));
+                map.put("checked", R.drawable.ic_done_blue_48dp);
+            } else {
+                map.put("title", getResStr(colorTitles[i]));
+                map.put("cover", R.drawable.color_img_white);
+            }
+            list.add(map);
+        }
+
+        return list;
+    }
+
+    /* For Language */
+    public Locale getLanguageIdNow() {
+
+        readLanguage();
+        return languageIdNow;
+    }
+
+    public void setLanguageIdNow(int _languageIdPos) {
+
+        if (languageIds[_languageIdPos] != languageIdNow)
+            writeLanguage(_languageIdPos);
+    }
+
+    public List<Map<String, Object>> getLanguageData() {
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        Map<String, Object> map;
+
+        for (int i = 0; i < languageIds.length; i++) {
+
+            map = new HashMap<>();
+            map.put("img", languageImgs[i]);
+            if (languageIdNow.toLanguageTag().equals(languageIds[i].toLanguageTag())) {
+                map.put("selectedTitle", getResStr(languageTitles[i]));
+                map.put("checked", R.drawable.ic_done_blue_48dp);
+            } else {
+                map.put("title", getResStr(languageTitles[i]));
+            }
+            Log.d("[][]", "getLanguageData: "+languageIdNow.toLanguageTag());
+            Log.d("[][]", "getLanguageData: "+languageIds[i].toLanguageTag());
+            list.add(map);
+        }
+
+        return list;
     }
 
     /* IO */
@@ -401,6 +511,36 @@ public class HistoryHandler {
 
         spReader = mContext.getSharedPreferences("data", Activity.MODE_PRIVATE);
         goalTime = spReader.getLong("goal", 0);
+    }
+
+    private void writeTheme(int _themeId) {
+
+        spReader = mContext.getSharedPreferences("data", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor spEditor = spReader.edit();
+        themeIdNow = themeIds[_themeId];
+        spEditor.putInt("theme", themeIdNow);
+        spEditor.apply();
+    }
+
+    private void readTheme() {
+
+        spReader = mContext.getSharedPreferences("data", Activity.MODE_PRIVATE);
+        themeIdNow = spReader.getInt("theme", themeIds[2]);
+    }
+
+    private void writeLanguage(int _languageIdPos) {
+
+        spReader = mContext.getSharedPreferences("data", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor spEditor = spReader.edit();
+        languageIdNow = languageIds[_languageIdPos];
+        spEditor.putString("language", languageIdNow.toLanguageTag());
+        spEditor.apply();
+    }
+
+    private void readLanguage() {
+
+        spReader = mContext.getSharedPreferences("data", Activity.MODE_PRIVATE);
+        languageIdNow = Locale.forLanguageTag(spReader.getString("language", languageIds[0].toLanguageTag()));
     }
 
     private String getTimeAs(long time, getTimeAsInput input) {

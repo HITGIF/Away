@@ -1,27 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="window_background">#FFF5F5F5</color>
+    <color name="colorGreyBackGround">#FFE8E8E8</color>
 
     <color name="white">#ffffff</color>
     <color name="white_0_5">#32FFFFFF</color>
     <color name="white_0_10">#64FFFFFF</color>
+    <color name="grey">#333333</color>
+    <color name="black">#111111</color>
 
+    <color name="light_blue">#3785ff</color>
     <color name="light_green">#8ad001</color>
     <color name="light_orange">#ce510f</color>
     <color name="thumbColor">#ffffff</color>
 
-    <color name="black">#111111</color>
-    <color name="gray">#333333</color>
+    <!--Tomato Theme-->
+    <color name="tomato_primary">#d50000</color>
+    <color name="tomato_PrimaryDark">#aa0000</color>
+    <color name="tomato_Accent">#FFC107</color>
 
-    <color name="colorPrimary">#009688</color>
-    <color name="colorPrimaryDark">#00796B</color>
-    <color name="colorPrimaryLight">#455a64</color>
-    <color name="colorAccent">#FFC107</color>
-    <color name="colorPrimaryText">#212121</color>
-    <color name="colorSecondaryText">#757575</color>
-    <color name="colorIcons">#FFFFFF</color>
-    <color name="colorDivider">#BDBDBD</color>
-    <color name="colorGreyBackGround">#FFE8E8E8</color>
+    <!--Tangerine Theme-->
+    <color name="tangerine_primary">#f4511e</color>
+    <color name="tangerine_PrimaryDark">#c34118</color>
+    <color name="tangerine_Accent">#FFC107</color>
+
+    <!--Basil Theme-->
+    <color name="basil_primary">#0b8043</color>
+    <color name="basil_PrimaryDark">#096636</color>
+    <color name="basil_Accent">#FFC107</color>
+
+    <!--Sage Theme-->
+    <color name="sage_primary">#33b679</color>
+    <color name="sage_PrimaryDark">#299261</color>
+    <color name="sage_Accent">#FFC107</color>
+
+    <!--Peacock Theme-->
+    <color name="peacock_primary">#039be5</color>
+    <color name="peacock_PrimaryDark">#027cb7</color>
+    <color name="peacock_Accent">#FFC107</color>
+
+    <!--Blueberry Theme-->
+    <color name="blueberry_primary">#3f51b5</color>
+    <color name="blueberry_PrimaryDark">#324191</color>
+    <color name="blueberry_Accent">#FFC107</color>
+
+    <!--Lavender Theme-->
+    <color name="lavender_primary">#7986cb</color>
+    <color name="lavender_PrimaryDark">#616ba2</color>
+    <color name="lavender_Accent">#FFC107</color>
+
+    <!--Grape Theme-->
+    <color name="grape_primary">#8e24aa</color>
+    <color name="grape_PrimaryDark">#721d88</color>
+    <color name="grape_Accent">#FFC107</color>
+
+    <!--Flamingo Theme-->
+    <color name="flamingo_primary">#e67c73</color>
+    <color name="flamingo_PrimaryDark">#b8635c</color>
+    <color name="flamingo_Accent">#FFC107</color>
+
+    <!--Graphite Theme-->
+    <color name="graphite_primary">#616161</color>
+    <color name="graphite_PrimaryDark">#4e4e4e</color>
+    <color name="graphite_Accent">#FFC107</color>
 
 </resources>
