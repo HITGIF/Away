@@ -34,10 +34,9 @@ import carbonylgroup.away.fragments.HomeFragment;
 
 public class MainActivity extends TransitionHelper.MainActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    public View fragmentBackground;
-
     private boolean menuOpenDrawer = true;
     private int presentFragment;
+
     private Toolbar mainToolBar;
     private DrawerLayout drawer;
     private MaterialMenuView materialMenu;
@@ -89,7 +88,6 @@ public class MainActivity extends TransitionHelper.MainActivity implements Navig
 
     private void initValue() {
 
-        fragmentBackground = findViewById(R.id.base_fragment_background);
         mainToolBar = (Toolbar) findViewById(R.id.main_toolbar);
         materialMenu = (MaterialMenuView) findViewById(R.id.material_menu_view);
     }
@@ -133,9 +131,6 @@ public class MainActivity extends TransitionHelper.MainActivity implements Navig
                     homeFragment = new HomeFragment();
                 transaction.replace(R.id.content_view, homeFragment);
                 presentFragment = 0;
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                    setToolBarElevation(0);
                 break;
 
             case R.id.detail_background:
@@ -144,9 +139,6 @@ public class MainActivity extends TransitionHelper.MainActivity implements Navig
                     detailFragment = new DetailFragment();
                 transaction.replace(R.id.content_view, detailFragment);
                 presentFragment = 1;
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                    setToolBarElevation(0);
                 break;
 
             case R.id.nav_dashboard:
@@ -155,9 +147,6 @@ public class MainActivity extends TransitionHelper.MainActivity implements Navig
                     dashboardFragment = new DashboardFragment();
                 transaction.replace(R.id.content_view, dashboardFragment);
                 presentFragment = 2;
-
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-//                    setToolBarElevation(10);
                 break;
 
             default:
@@ -212,12 +201,14 @@ public class MainActivity extends TransitionHelper.MainActivity implements Navig
     }
 
     public void setHomeIcon(MaterialMenuDrawable.IconState iconState) {
+
         if (currentIconState == iconState) return;
         currentIconState = iconState;
         materialMenu.setState(currentIconState);
     }
 
     public boolean animateHomeIcon(MaterialMenuDrawable.IconState iconState, boolean openDrawer) {
+
         menuOpenDrawer = openDrawer;
         enableDrawer(openDrawer);
         if (currentIconState == iconState) return false;
