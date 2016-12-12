@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">離</string>
+
+    <string name="drawer_hint">導航抽屜</string>
+    <string name="open_drawer">打開抽屜</string>
+    <string name="close_drawer">關閉抽屜</string>
+
+    <string name="home">主頁</string>
+    <string name="dashboard">儀表盤</string>
+    <string name="friends">好友</string>
+    <string name="leaderboard">排行榜</string>
+    <string name="preference">偏好設置</string>
+    <string name="theme">主題</string>
+    <string name="language">語言</string>
+
+    <string name="leaveMeAlong">別理我！</string>
+    <string name="giveUpDiaTitle">想放棄？</string>
+    <string name="giveUpDiaMessage">如果放棄了，沒有時間會被記錄下來！</string>
+    <string name="stay">留下</string>
+    <string name="giveUp">放棄</string>
+    <string name="goodJob">乾的漂亮！</string>
+    <string name="targetAchieved">你的時間已被記錄在案 :)</string>
+    <string name="GOT_IT">好的</string>
+    <string name="whatAPity">真遺憾！</string>
+    <string name="targetNotAchieved">你失去了你的時間 :(</string>
+    <string name="myFault">我錯了</string>
+
+    <string name="sample_username">Gustav Wang</string>
+
+    <string name="today_earned">今天掙了</string>
+    <string name="total_earned">一共掙了</string>
+    <string name="daily_goal">每日目標</string>
+    <string name="my_goal">我的目標</string>
+    <string name="finished">完成了</string>
+    <string name="unfinished">未完成</string>
+    <string name="last_seven_days_earned">過去7天 (分)</string>
+    <string name="time_overview">總覽 (時)</string>
+    <string name="today">今日</string>
+    <string name="this_week">本周</string>
+    <string name="this_month">本月</string>
+    <string name="this_year">今年</string>
+
+    <string name="min_short">\'</string>
+    <string name="hour_short">時</string>
+    <string name="day_short">天</string>
+    <string name="month_short">月</string>
+    <string name="year_short">年</string>
+    <string name="percentage_sign">%</string>
+
+    <string name="choose_your_favorite_color">選你喜歡的顔色</string>
+    <string name="tomato">番茄</string>
+    <string name="tangerine">柑桔</string>
+    <string name="banana">香蕉</string>
+    <string name="basil">羅勒</string>
+    <string name="sage">鼠尾草</string>
+    <string name="peacock">孔雀</string>
+    <string name="blueberry">藍莓</string>
+    <string name="lavender">薰衣草</string>
+    <string name="grape">葡萄</string>
+    <string name="flamingo">火烈鳥</string>
+    <string name="graphite">石墨</string>
+
+    <string name="choose_your_preferred_language">選擇你想用的語言</string>
+    <string name="english">English</string>
+    <string name="simplified_chinese">简体中文</string>
+    <string name="traditional_chinese">繁體中文</string>
+    <string name="german">Deutsch</string>
+    <string name="japanese">日本語</string>
+
+    <string name="transition_name_goal_view">transition:GOAL_VIEW</string>
+</resources>

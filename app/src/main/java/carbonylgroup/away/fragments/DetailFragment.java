@@ -4,31 +4,21 @@
 
 package carbonylgroup.away.fragments;
 
-
 import android.app.Fragment;
 import android.app.TimePickerDialog;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.ScrollingView;
-import android.support.v4.view.ViewCompat;
-import android.util.Log;
-import android.view.KeyEvent;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
-
-import com.balysv.materialmenu.MaterialMenuDrawable;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
@@ -38,22 +28,21 @@ import java.util.Date;
 import carbonylgroup.away.R;
 import carbonylgroup.away.classes.HistoryHandler;
 
+
 public class DetailFragment extends Fragment {
 
-    private int white;
     private int primaryDark;
-    private int primary;
     private int accent;
     private long totalTime;
     private long completedTime;
-
-    private Animation edit_fab_in;
-    private HistoryHandler historyHandler;
 
     private View view;
     private PieChart detail_pie_chart;
     private TextView total_time_tv;
     private TextView completed_time_tv;
+    private TextView detail_pie_tv;
+    private Animation edit_fab_in;
+    private HistoryHandler historyHandler;
     private TimePickerDialog timePickerDialog;
     private FloatingActionButton edit_fab;
 
@@ -75,6 +64,7 @@ public class DetailFragment extends Fragment {
 
         total_time_tv = (TextView) view.findViewById(R.id.total_time_tv);
         completed_time_tv = (TextView) view.findViewById(R.id.completed_time_tv);
+        detail_pie_tv = (TextView) view.findViewById(R.id.detail_pie_tv);
 
         detail_pie_chart = (PieChart) view.findViewById(R.id.detail_pie_chart);
         edit_fab = (FloatingActionButton) view.findViewById(R.id.edit_fab);
@@ -85,9 +75,13 @@ public class DetailFragment extends Fragment {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         historyHandler.setGoal(hourOfDay, minute);
+                        initTime();
+                        initTextViews();
+                        initPieChart();
                     }
                 };
-                timePickerDialog = new TimePickerDialog(getActivity(), onTimeSetListener, 0, 0, true);
+                timePickerDialog = new TimePickerDialog(getActivity(), onTimeSetListener,
+                        Math.round(historyHandler.getGoalInNum(1)), Math.round(historyHandler.getGoalInNum(2)), true);
                 timePickerDialog.show();
             }
         });
@@ -112,26 +106,30 @@ public class DetailFragment extends Fragment {
         displayViewAnimation();
     }
 
-    private void initTime(){
+    private void initTime() {
 
         long todayTime;
-        totalTime = historyHandler.getGoalInNum();
+        totalTime = historyHandler.getGoalInNum(0);
         todayTime = historyHandler.getTimeOfDay(new Date());
         completedTime = todayTime > totalTime ? totalTime : todayTime;
     }
 
     private void initColor() {
 
-        white = getResources().getColor(R.color.white);
-        primaryDark = getResources().getColor(R.color.colorPrimaryDark);
-        primary = getResources().getColor(R.color.colorPrimary);
-        accent = getResources().getColor(R.color.colorAccent);
+        TypedValue typedValue = new TypedValue();
+        getActivity().getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValue, true);
+        primaryDark = typedValue.data;
+        getActivity().getTheme().resolveAttribute(R.attr.colorAccent, typedValue, true);
+        accent = typedValue.data;
     }
 
     private void initTextViews() {
 
         total_time_tv.setText(historyHandler.getGoalInStr());
         completed_time_tv.setText(historyHandler.S2HM(completedTime));
+        String percentage = String.valueOf((long) (Double.longBitsToDouble(completedTime) /
+                Double.longBitsToDouble(totalTime) * 100)) + getString(R.string.percentage_sign);
+        detail_pie_tv.setText(percentage);
     }
 
     private void initPieChart() {
@@ -155,6 +153,5 @@ public class DetailFragment extends Fragment {
             }
         });
     }
-
 
 }

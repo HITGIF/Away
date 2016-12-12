@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="?android:attr/colorPrimary"
     android:id="@+id/backRootView"
     android:orientation="vertical">
 
@@ -10,7 +10,7 @@
         android:id="@+id/timing_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAccent">
+        android:background="?android:attr/colorAccent">
 
         <TextView
             android:id="@+id/intro"
@@ -45,7 +45,7 @@
             android:layout_marginBottom="20dp"
             android:background="?android:attr/selectableItemBackground"
             android:text="@string/giveUp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?android:attr/colorPrimary"
             android:textSize="20dp" />
 
     </RelativeLayout>

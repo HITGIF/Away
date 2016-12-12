@@ -22,19 +22,19 @@
             android:id="@+id/nav_leaderBoard"
             android:checkable="true"
             android:icon="@drawable/ic_dns_black_48dp"
-            android:title="@string/leader_board" />
+            android:title="@string/leaderboard" />
     </group>
 
-    <item android:title="Preference">
+    <item android:title="@string/preference">
         <menu>
             <item
                 android:id="@+id/nav_theme"
                 android:icon="@drawable/ic_color_lens_black_48dp"
                 android:title="@string/theme" />
             <item
-                android:id="@+id/nav_setting"
+                android:id="@+id/nav_language"
                 android:icon="@drawable/ic_settings_black_48dp"
-                android:title="@string/setting" />
+                android:title="@string/language" />
         </menu>
     </item>
 

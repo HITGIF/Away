@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">Abseits</string>
+
+    <string name="drawer_hint">Navigation Schublade</string>
+    <string name="open_drawer">Schublade Geöffnet</string>
+    <string name="close_drawer">Schublade Geschlossen</string>
+
+    <string name="home">Hause</string>
+    <string name="dashboard">Instrumententafel</string>
+    <string name="friends">Freunde</string>
+    <string name="leaderboard">Bestenliste</string>
+    <string name="preference">Bevorzugen</string>
+    <string name="theme">Thema</string>
+    <string name="language">Sprache</string>
+
+    <string name="leaveMeAlong">Lass mich allein!</string>
+    <string name="giveUpDiaTitle">Willst du aufgeben?</string>
+    <string name="giveUpDiaMessage">Sobald Sie aufgeben, wird keine Zeit aufnehmen!</string>
+    <string name="stay">BLEIBE</string>
+    <string name="giveUp">GIB AUF</string>
+    <string name="goodJob">Gut gemacht!</string>
+    <string name="targetAchieved">Ihre Zeit wurde aufgezeichnet :)</string>
+    <string name="GOT_IT">VERSTANDEN</string>
+    <string name="whatAPity">Was für eine Schande!</string>
+    <string name="targetNotAchieved">Sie hatten Ihre Zeit verloren :(</string>
+    <string name="myFault">MEINE SCHULD</string>
+
+    <string name="sample_username">Gustav Wang</string>
+
+    <string name="today_earned">Heute verdient</string>
+    <string name="total_earned">Gesamt</string>
+    <string name="daily_goal">Tägliches Ziel</string>
+    <string name="my_goal">Mein Ziel</string>
+    <string name="finished">Fertig</string>
+    <string name="unfinished">Unvollendet</string>
+    <string name="last_seven_days_earned">Letzten 7 Tage (min)</string>
+    <string name="time_overview">Überblick (h)</string>
+    <string name="today">Heute</string>
+    <string name="this_week">Diese Woche</string>
+    <string name="this_month">Diesen Monat</string>
+    <string name="this_year">Dieses Jahr</string>
+
+    <string name="min_short">\'</string>
+    <string name="hour_short">h</string>
+    <string name="day_short">d</string>
+    <string name="month_short">m</string>
+    <string name="year_short">y</string>
+    <string name="percentage_sign">%</string>
+
+    <string name="choose_your_favorite_color">Wählen Sie Ihre Lieblingsfarbe</string>
+    <string name="tomato">Tomate</string>
+    <string name="tangerine">Mandarine</string>
+    <string name="banana">Banane</string>
+    <string name="basil">Basilikum</string>
+    <string name="sage">Salbei</string>
+    <string name="peacock">Pfau</string>
+    <string name="blueberry">Blaubeere</string>
+    <string name="lavender">Lavendel</string>
+    <string name="grape">Traube</string>
+    <string name="flamingo">Flamingo</string>
+    <string name="graphite">Graphit</string>
+
+    <string name="choose_your_preferred_language">Wählen Sie Ihre bevorzugte Sprache</string>
+    <string name="english">English</string>
+    <string name="simplified_chinese">简体中文</string>
+    <string name="traditional_chinese">繁體中文</string>
+    <string name="german">Deutsch</string>
+    <string name="japanese">日本語</string>
+
+    <string name="transition_name_goal_view">transition:GOAL_VIEW</string>
+</resources>

@@ -4,14 +4,10 @@
 
 package carbonylgroup.away.classes;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class History {
 
-    private final String dateStr;
-    private final String shortDateStr;
     public final Date date;
     public final long time_took;
 
@@ -19,26 +15,6 @@ public class History {
 
         date = _date;
         time_took = _time_took;
-        dateStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS", Locale.CHINA).format(date);
-        shortDateStr = new SimpleDateFormat("MM-dd", Locale.CHINA).format(date);
-    }
-
-    public int getDay() {
-        return date.getDay();
-    }
-    public int getYear() {
-        return date.getYear();
-    }
-    public int getMonth() {
-        return date.getMonth();
-    }
-
-    public String getDateStr(boolean showAll) {
-
-        if (showAll)
-            return dateStr;
-        else
-            return shortDateStr;
     }
 
 }
