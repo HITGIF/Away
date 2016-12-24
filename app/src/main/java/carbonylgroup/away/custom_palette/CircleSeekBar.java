@@ -97,8 +97,8 @@ public class CircleSeekBar extends View {
 		//返回的Drawable为一个StateListDrawable类型，即可以实现选中效果的drawable list
 		//mThumbNormal和mThumbPressed则是用于设置不同状态的效果，当点击thumb时设置mThumbPressed，否则设置mThumbNormal
 		mThumbDrawable = localTypedArray.getDrawable(R.styleable.CircleSeekBar_android_thumb);
-		mThumbWidth = this.mThumbDrawable.getIntrinsicWidth();
-		mThumbHeight = this.mThumbDrawable.getIntrinsicHeight();
+		mThumbWidth = dip2px(getContext(), 30);
+		mThumbHeight = dip2px(getContext(), 30);
 
 		mThumbNormal = new int[]{-android.R.attr.state_focused, -android.R.attr.state_pressed,
 				-android.R.attr.state_selected, -android.R.attr.state_checked};

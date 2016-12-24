@@ -2,6 +2,7 @@
 <resources>
 
     <declare-styleable name="CircleSeekBar">
+
         <attr name="android:thumb" />
         <attr name="progress_width" format="dimension" />
         <attr name="progress_background" format="color" />
@@ -11,6 +12,7 @@
         <attr name="progress_text_stroke_width" format="dimension" />
         <attr name="progress_text_color" format="color" />
         <attr name="progress_text_size" format="dimension" />
+
     </declare-styleable>
 
     <declare-styleable name="CustomAttributes">
