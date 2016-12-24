@@ -66,6 +66,7 @@ public class HomeFragment extends Fragment {
                 intent.putExtra("time", value);
                 intent.setClass(getActivity(), OnTimeActivity.class);
                 startActivity(intent);
+                getActivity().overridePendingTransition(0, 0);
             }
         });
     }
